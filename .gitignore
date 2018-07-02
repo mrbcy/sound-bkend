@@ -24,5 +24,6 @@ hs_err_pid*
 
 # idea
 .idea
-.target
+target
 *.iml
+target/classes/application.properties
