@@ -4,6 +4,8 @@ import cn.mrbcy.sound.domain.Tag;
 import cn.mrbcy.sound.domain.TagJpaRepository;
 import cn.mrbcy.sound.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,5 +43,10 @@ public class TagServiceImpl implements TagService {
     @Override
     public List<Tag> findTagLikeName(String tagName) {
         return tagJpaRepository.findTagLikeName(tagName);
+    }
+
+    @Override
+    public Page<Tag> getAllTags(Integer page, Integer size) {
+        return tagJpaRepository.findAll(PageRequest.of(page,size));
     }
 }

@@ -1,6 +1,7 @@
 package cn.mrbcy.sound.service;
 
 import cn.mrbcy.sound.domain.Tag;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -22,4 +23,12 @@ public interface TagService {
      * @return
      */
     public List<Tag> findTagLikeName(String tagName);
+
+    /**
+     * 根据分页查询结果返回所有的标签
+     * @param page 分页数
+     * @param size 每页的条数
+     * @return 分页查询结果对象
+     */
+    public Page<Tag> getAllTags(Integer page, Integer size);
 }
