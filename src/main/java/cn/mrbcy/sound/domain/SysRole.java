@@ -30,13 +30,11 @@ public class SysRole {
 
     }
 
-    public SysRole(String role, String roleName, String description, boolean disable, List<SysPermission> permissions, List<User> users) {
+    public SysRole(String role, String roleName, String description, boolean disable) {
         this.role = role;
         this.roleName = roleName;
         this.description = description;
         this.disable = disable;
-        this.permissions = permissions;
-        this.users = users;
     }
 
     public int getId() {
