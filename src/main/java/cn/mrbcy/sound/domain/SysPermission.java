@@ -10,10 +10,12 @@ import java.util.List;
 public class SysPermission {
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
     @Column(unique = true)
-    private String name; //权限名
-    @ManyToMany
+    private String permission; //权限名
+    private String permissionName; //权限名（中文）
+
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name="SysRolePermission", joinColumns={@JoinColumn(name="permissionId")},inverseJoinColumns={@JoinColumn(name="roleId")})
     private List<SysRole> roles;
 
@@ -21,26 +23,35 @@ public class SysPermission {
 
     }
 
-    public SysPermission(String name, List<SysRole> roles) {
-        this.name = name;
-        this.roles = roles;
+    public SysPermission(String permission, String permissionName) {
+        this.permission = permission;
+        this.permissionName = permissionName;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getPermission() {
+        return permission;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPermission(String permission) {
+        this.permission = permission;
     }
+
+    public String getPermissionName() {
+        return permissionName;
+    }
+
+    public void setPermissionName(String permissionName) {
+        this.permissionName = permissionName;
+    }
+
 
     public List<SysRole> getRoles() {
         return roles;

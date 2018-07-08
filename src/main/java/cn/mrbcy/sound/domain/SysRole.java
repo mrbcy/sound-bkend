@@ -10,7 +10,7 @@ import java.util.List;
 public class SysRole {
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
     @Column(unique = true)
     private String role; //角色名，英文
     private String roleName; //角色名，中文
@@ -22,7 +22,7 @@ public class SysRole {
     @JoinTable(name="SysRolePermission", joinColumns = {@JoinColumn(name="roleId")}, inverseJoinColumns = {@JoinColumn(name="permissionId")})
     private List<SysPermission> permissions;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name="SysUserRole", joinColumns = {@JoinColumn(name="roleId")}, inverseJoinColumns = {@JoinColumn(name="userId")})
     private List<User> users;
 
@@ -37,11 +37,11 @@ public class SysRole {
         this.disable = disable;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
