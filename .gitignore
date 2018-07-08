@@ -28,3 +28,4 @@ target
 *.iml
 target/classes/application.properties
 target/classes/application.properties
+target/classes/application.properties
