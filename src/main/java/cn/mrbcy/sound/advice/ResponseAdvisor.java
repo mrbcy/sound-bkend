@@ -2,6 +2,7 @@ package cn.mrbcy.sound.advice;
 
 import cn.mrbcy.sound.domain.Result;
 import org.springframework.core.MethodParameter;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
@@ -32,9 +33,11 @@ public class ResponseAdvisor implements ResponseBodyAdvice<Object> {
         }
 
         if (body instanceof Result) {
-            return body;
+            Result result = (Result)body;
+            response.setStatusCode(HttpStatus.valueOf(result.getStatus()));
+            return result;
         }
 
-        return new Result(body);
+        return body;
     }
 }

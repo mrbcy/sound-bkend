@@ -2,6 +2,9 @@ package cn.mrbcy.sound.controller;
 
 import cn.mrbcy.sound.domain.Tag;
 import cn.mrbcy.sound.service.TagService;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +25,8 @@ public class TagController extends AbstractRestHandler{
     private TagService tagService;
 
     @GetMapping(value = "")
+
+    @RequiresPermissions(logical = Logical.AND, value = {"tag:view"})
     public Page<Tag> getAllTag(@RequestParam(value = "page", required = true, defaultValue = DEFAULT_PAGE_NUM) Integer page,
                                @RequestParam(value = "size", required = true, defaultValue = DEFAULT_PAGE_SIZE) Integer size,
                                HttpServletRequest request, HttpServletResponse response){

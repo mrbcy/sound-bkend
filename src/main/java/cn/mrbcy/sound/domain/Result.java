@@ -10,12 +10,20 @@ public class Result {
 
     private Object data;
 
-    public Result(Object data) {
-        this.data = data;
+    private String msg;
+
+    public Result(int status) {
+        this.status = status;
     }
 
-    public Result(int status, String data) {
+    public Result(int status, String msg){
+        this.status = status;
+        this.msg = msg;
+    }
+
+    public Result(int status, String msg, Object data) {
         this(status);
+        this.msg = msg;
         this.data = data;
     }
 
@@ -34,5 +42,13 @@ public class Result {
 
     public void setData(Object data) {
         this.data = data;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 }
