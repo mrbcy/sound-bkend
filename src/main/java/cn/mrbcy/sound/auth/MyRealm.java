@@ -70,6 +70,10 @@ public class MyRealm extends AuthorizingRealm {
             throw new AuthenticationException("Username or password error");
         }
 
+        if(!userService.isTokenValid(username, token)){
+            throw new AuthenticationException("Token expired, please login again");
+        }
+
         return new SimpleAuthenticationInfo(token, token, "myrealm");
     }
 }
