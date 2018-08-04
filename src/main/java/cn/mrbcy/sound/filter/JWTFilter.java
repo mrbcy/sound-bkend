@@ -1,6 +1,12 @@
 package cn.mrbcy.sound.filter;
 
 import cn.mrbcy.sound.auth.JWTToken;
+import cn.mrbcy.sound.domain.Result;
+import cn.mrbcy.sound.util.RequestResponseUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,9 +66,20 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         if (isLoginAttempt(request, response)) {
             try {
                 executeLogin(request, response);
-            } catch (Exception e) {
+            } catch (AuthenticationException e){
+               response401(request, response, e);
+               return false;
+            } catch(Exception e) {
                 response401(request, response);
+                return false;
             }
+        }
+        return true;
+    }
+
+    protected boolean onAccessDenied(ServletRequest servletRequest, ServletResponse servletResponse) {
+        if(servletResponse.isCommitted()){
+            return false;
         }
         return true;
     }
@@ -89,12 +106,16 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
      * 将非法请求跳转到 /401
      */
     private void response401(ServletRequest req, ServletResponse resp) {
-        try {
-            HttpServletResponse httpServletResponse = (HttpServletResponse) resp;
-            httpServletResponse.sendRedirect("/api/v1/401");
-        } catch (IOException e) {
-            LOGGER.error(e.getMessage());
-        }
+        response401(req, resp, null);
+    }
+
+    private void response401(ServletRequest req, ServletResponse resp, Exception e) {
+        String msg = e == null ? "Unauthorized, Please login and try again.": e.getMessage();
+
+        Result result = new Result(401, msg, null);
+        HttpServletResponse response = (HttpServletResponse)resp;
+        response.setStatus(401);
+        RequestResponseUtil.responseWrite(JSON.toJSONString(result, SerializerFeature.WriteMapNullValue), resp);
     }
 }
 
